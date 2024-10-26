@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:5.7
-    platform: linux/arm64/v8  # Specify the platform to ensure compatibility
+    image: mysql:8.0  # Use MySQL 8.0 for better ARM support
+    platform: linux/arm64/v8
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root_password
