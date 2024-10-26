@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   web:
     image: nginx:alpine
@@ -6,22 +8,17 @@ services:
       - "3000:80"
     volumes:
       - ./php:/var/www/html
-    depends_on:
-      - php-fpm
 
   php-fpm:
     build:
-      context: ./php
+      context: ./php  # Adjust this line to the correct directory
     container_name: php-fpm
     volumes:
       - ./php:/var/www/html
-    networks:
-      - app-network
 
   db:
-    image: mysql/mysql-server:5.7  # Consider a different MySQL image that supports ARM
+    image: mysql:5.7
     container_name: mysql-db
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: appdb
@@ -29,10 +26,6 @@ services:
       MYSQL_PASSWORD: userpassword
     volumes:
       - db_data:/var/lib/mysql
-
-networks:
-  app-network:
-    driver: bridge
 
 volumes:
   db_data:
