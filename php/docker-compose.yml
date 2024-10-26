@@ -2,43 +2,33 @@ version: '3.8'
 
 services:
   db:
-    image: arm64v8/mysql:8.0  # Use a compatible MySQL image
-    container_name: db
+    image: arm64v8/mysql:5.7
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword  # Set a root password
-      MYSQL_DATABASE: mydatabase  # Name of the database
-      MYSQL_USER: user  # Optional user
-      MYSQL_PASSWORD: userpassword  # Optional user password
-    volumes:
-      - db_data:/var/lib/mysql
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
     networks:
-      - app-network
+      - php_app-network
 
   php-fpm:
-    image: arm64v8/php:8.1-fpm  # Use a compatible PHP-FPM image
-    container_name: php-fpm
+    image: arm64v8/php:8.1-fpm
     volumes:
-      - ./php:/var/www/html  # Adjust this path to your PHP files
+      - ./php:/var/www/html
     networks:
-      - app-network
+      - php_app-network
 
   web:
-    image: arm64v8/nginx:alpine  # Use a compatible Nginx image
-    container_name: web
+    image: arm64v8/nginx:alpine
     ports:
-      - "3000:80"  # Map port 3000 on the host to port 80 on the container
+      - "3000:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf  # Adjust this path to your Nginx config
-      - ./php:/var/www/html  # Mount your PHP files
-    depends_on:
-      - php-fpm
-      - db
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf  # Ensure this path is correct
+      - ./php:/var/www/html
     networks:
-      - app-network
+      - php_app-network
 
 networks:
-  app-network:
+  php_app-network:
     driver: bridge
-
-volumes:
-  db_data:
