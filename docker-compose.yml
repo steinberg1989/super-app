@@ -1,11 +1,11 @@
-version: '3.8' # It's a good practice to specify the version
+version: '3.8'
 
 services:
   node:
     build:
       context: ./node  # Update to the correct folder where your Dockerfile is located
       dockerfile: Dockerfile
-    image: cookie8monster/super-app-node:latest # Use the correct image name
+    image: cookie8monster/super-app-node:latest
     ports:
       - "3000:3000"
     networks:
@@ -20,7 +20,7 @@ services:
     build:
       context: ./php  # Update to the correct folder where your Dockerfile is located
       dockerfile: Dockerfile
-    image: cookie8monster/super-app-php:latest # Use the correct image name
+    image: cookie8monster/super-app-php:latest
     ports:
       - "80:80"
     networks:
@@ -32,7 +32,7 @@ services:
       DB_NAME: super-app
 
   db:
-    image: mariadb:latest  # Use MariaDB as an alternative to MySQL
+    image: mariadb:latest
     environment:
       MYSQL_DATABASE: 'super-app'
       MYSQL_ROOT_PASSWORD: 'password'
