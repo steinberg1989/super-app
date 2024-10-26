@@ -22,7 +22,7 @@ services:
       - app-network
 
   db:
-    image: arm64v8/mysql:5.7
+    image: arm64v8/mysql:8.0  # Using MySQL 8.0, which supports ARM64
     container_name: mysql-db
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
