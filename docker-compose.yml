@@ -1,11 +1,9 @@
-version: '3.8'
-
 services:
-  node:
+  node-app:
     build:
-      context: ./node  # Update to the correct folder where your Dockerfile is located
+      context: ./node  # Adjust context to point correctly
       dockerfile: Dockerfile
-    image: cookie8monster/super-app-node:latest
+    image: node:latest
     ports:
       - "3000:3000"
     networks:
@@ -15,12 +13,11 @@ services:
       DB_USER: root
       DB_PASSWORD: password
       DB_NAME: super-app
-
-  php:
+  php-app:
     build:
-      context: ./php  # Update to the correct folder where your Dockerfile is located
+      context: ./php  # Adjust context to point correctly
       dockerfile: Dockerfile
-    image: cookie8monster/super-app-php:latest
+    image: php:latest
     ports:
       - "80:80"
     networks:
@@ -30,9 +27,8 @@ services:
       DB_USER: root
       DB_PASSWORD: password
       DB_NAME: super-app
-
   db:
-    image: mariadb:latest
+    image: mariadb:latest  # Use MariaDB as an alternative to MySQL
     environment:
       MYSQL_DATABASE: 'super-app'
       MYSQL_ROOT_PASSWORD: 'password'
@@ -40,7 +36,6 @@ services:
       - "3306:3306"
     networks:
       - app-network
-
 networks:
   app-network:
     driver: bridge
