@@ -6,7 +6,7 @@ services:
     container_name: php-web
     ports:
       - "3000:80"
-    platform: linux/amd64  # Add this line
+    platform: linux/amd64  # Force platform to amd64
     volumes:
       - ./php:/var/www/html
 
@@ -15,14 +15,14 @@ services:
       context: ./php
       dockerfile: Dockerfile
     container_name: php-fpm
-    platform: linux/amd64  # Add this line
+    platform: linux/amd64  # Force platform to amd64
     volumes:
       - ./php:/var/www/html
 
   db:
     image: mysql:5.7
     container_name: mysql-db
-    platform: linux/amd64  # Add this line
+    platform: linux/amd64  # Force platform to amd64
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: appdb
