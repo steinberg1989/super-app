@@ -6,23 +6,24 @@ services:
     container_name: php-web
     ports:
       - "3000:80"
-    platform: linux/amd64  # Force platform to amd64
     volumes:
       - ./php:/var/www/html
+    depends_on:
+      - php-fpm
+    networks:
+      - app-network
 
   php-fpm:
-    build:
-      context: ./php
-      dockerfile: Dockerfile
+    image: php:8.0-fpm
     container_name: php-fpm
-    platform: linux/amd64  # Force platform to amd64
     volumes:
       - ./php:/var/www/html
+    networks:
+      - app-network
 
   db:
     image: mysql:5.7
     container_name: mysql-db
-    platform: linux/amd64  # Force platform to amd64
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: appdb
@@ -30,6 +31,12 @@ services:
       MYSQL_PASSWORD: userpassword
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - app-network
 
 volumes:
   db_data:
+
+networks:
+  app-network:
+    driver: bridge
