@@ -6,19 +6,23 @@ services:
     container_name: php-web
     ports:
       - "3000:80"
+    platform: linux/amd64  # Add this line
     volumes:
       - ./php:/var/www/html
 
   php-fpm:
     build:
-      context: ./php  # Adjust this line to the correct directory
+      context: ./php
+      dockerfile: Dockerfile
     container_name: php-fpm
+    platform: linux/amd64  # Add this line
     volumes:
       - ./php:/var/www/html
 
   db:
     image: mysql:5.7
     container_name: mysql-db
+    platform: linux/amd64  # Add this line
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: appdb
