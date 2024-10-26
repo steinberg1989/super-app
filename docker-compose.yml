@@ -1,9 +1,11 @@
+version: '3.8' # It's a good practice to specify the version
+
 services:
   node:
     build:
-      context: ./node  # Adjust context to point correctly
+      context: ./node  # Update to the correct folder where your Dockerfile is located
       dockerfile: Dockerfile
-    image: node:latest
+    image: cookie8monster/super-app-node:latest # Use the correct image name
     ports:
       - "3000:3000"
     networks:
@@ -16,9 +18,9 @@ services:
 
   php:
     build:
-      context: ./php  # Adjust context to point correctly
+      context: ./php  # Update to the correct folder where your Dockerfile is located
       dockerfile: Dockerfile
-    image: php:latest
+    image: cookie8monster/super-app-php:latest # Use the correct image name
     ports:
       - "80:80"
     networks:
