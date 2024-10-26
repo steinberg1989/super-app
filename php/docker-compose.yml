@@ -12,6 +12,7 @@ services:
       - php-fpm
     networks:
       - app-network
+    platform: linux/amd64  # Specify the platform
 
   php-fpm:
     image: php:8.0-fpm
@@ -20,6 +21,7 @@ services:
       - ./php:/var/www/html
     networks:
       - app-network
+    platform: linux/amd64  # Specify the platform
 
   db:
     image: mysql:5.7
@@ -33,6 +35,7 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - app-network
+    platform: linux/amd64  # Specify the platform
 
 volumes:
   db_data:
