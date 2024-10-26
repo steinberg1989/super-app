@@ -12,19 +12,17 @@ services:
       - php-fpm
     networks:
       - app-network
-    platform: linux/amd64  # Specify the platform
 
   php-fpm:
-    image: php:8.0-fpm
+    image: arm64v8/php:8.0-fpm
     container_name: php-fpm
     volumes:
       - ./php:/var/www/html
     networks:
       - app-network
-    platform: linux/amd64  # Specify the platform
 
   db:
-    image: mysql:5.7
+    image: arm64v8/mysql:5.7
     container_name: mysql-db
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -35,7 +33,6 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - app-network
-    platform: linux/amd64  # Specify the platform
 
 volumes:
   db_data:
