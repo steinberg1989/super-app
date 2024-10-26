@@ -1,5 +1,5 @@
 services:
-  node-app:
+  node:
     build:
       context: ./node  # Adjust context to point correctly
       dockerfile: Dockerfile
@@ -14,7 +14,7 @@ services:
       DB_PASSWORD: password
       DB_NAME: super-app
 
-  php-app:
+  php:
     build:
       context: ./php  # Adjust context to point correctly
       dockerfile: Dockerfile
