@@ -1,0 +1,44 @@
+services:
+  node-app:
+    build:
+      context: ./node  # Adjust context to point correctly
+      dockerfile: Dockerfile
+    image: node:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: super-app
+
+  php-app:
+    build:
+      context: ./php  # Adjust context to point correctly
+      dockerfile: Dockerfile
+    image: php:latest
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: super-app
+
+  db:
+    image: mariadb:latest  # Use MariaDB as an alternative to MySQL
+    environment:
+      MYSQL_DATABASE: 'super-app'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
