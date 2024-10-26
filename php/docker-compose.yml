@@ -1,35 +1,44 @@
-version: '3.8'
-
 services:
-  db:
-    image: mysql:8.0  # Use MySQL 8.0 for better ARM support
-    platform: linux/arm64/v8
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: app_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user_password
-    networks:
-      - php_app-network
-
-  php-fpm:
-    image: arm64v8/php:8.1-fpm
-    volumes:
-      - ./php:/var/www/html
-    networks:
-      - php_app-network
-
-  web:
-    image: arm64v8/nginx:alpine
+  node-app:
+    build:
+      context: ./node  # Adjust context to point correctly
+      dockerfile: Dockerfile
+    image: node:latest
     ports:
-      - "3000:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf  # Ensure this path is correct
-      - ./php:/var/www/html
+      - "3000:3000"
     networks:
-      - php_app-network
+      - app-network
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: super-app
+
+  php-app:
+    build:
+      context: ./php  # Adjust context to point correctly
+      dockerfile: Dockerfile
+    image: php:latest
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: super-app
+
+  db:
+    image: mariadb:latest  # Use MariaDB as an alternative to MySQL
+    environment:
+      MYSQL_DATABASE: 'super-app'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
 
 networks:
-  php_app-network:
+  app-network:
     driver: bridge
